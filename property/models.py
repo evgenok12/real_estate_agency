@@ -5,9 +5,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
-    owner_name = models.CharField('ФИО владельца', max_length=200)
-    owner_pure_phone = PhoneNumberField(verbose_name='Нормализованный номер владельца', blank=True, null=True)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     new_building = models.BooleanField(null=True)
     created_at = models.DateTimeField(
         'Когда создано объявление',
@@ -44,7 +41,7 @@ class Flat(models.Model):
         db_index=True)
 
     has_balcony = models.NullBooleanField('Наличие балкона', db_index=True)
-    active = models.BooleanField('Активно-ли объявление', db_index=True)
+    active = models.BooleanField('Активно ли объявление', db_index=True)
     construction_year = models.IntegerField(
         'Год постройки здания',
         null=True,
@@ -63,7 +60,10 @@ class Complaint(models.Model):
 
 
 class Owner(models.Model):
-    name = models.CharField('ФИО владельца', max_length=200)
-    pure_phone = PhoneNumberField(verbose_name='Нормализованный номер владельца', blank=True, null=True)
-    phonenumber = models.CharField('Номер владельца', max_length=20)
+    name = models.CharField('ФИО', max_length=200)
+    pure_phone = PhoneNumberField(verbose_name='Нормализованный номер телефона', blank=True, null=True)
+    phonenumber = models.CharField('Номер телефона', max_length=20)
     flats = models.ManyToManyField(Flat, verbose_name='Квартиры в собственности')
+
+    def __str__(self):
+        return self.name

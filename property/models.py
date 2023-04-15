@@ -58,6 +58,9 @@ class Complaint(models.Model):
     flat = models.ForeignKey(Flat, models.PROTECT, verbose_name='Квартира, на которую пожаловались', related_name='complaints')
     text = models.TextField('Текст жалобы')
 
+    def __str__(self):
+        return f'{self.user.username}: {self.flat.town}, {self.flat.address}'
+
 
 class Owner(models.Model):
     name = models.CharField('ФИО', max_length=200, db_index=True)

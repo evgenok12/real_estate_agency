@@ -6,13 +6,11 @@ import phonenumbers
 
 def fill_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.iterator():
         phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
         if phonenumbers.is_valid_number(phone):
             pure_phone = phonenumbers.format_number(phone, phonenumbers.PhoneNumberFormat.E164)
-            if len(pure_phone) == 12:
-                flat.owner_pure_phone = pure_phone
-                flat.save()
+            flat.update(owner_pure_phone=pure_phone)
 
 
 class Migration(migrations.Migration):

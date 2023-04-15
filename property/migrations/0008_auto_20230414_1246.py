@@ -10,7 +10,8 @@ def fill_owner_pure_phone(apps, schema_editor):
         phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
         if phonenumbers.is_valid_number(phone):
             pure_phone = phonenumbers.format_number(phone, phonenumbers.PhoneNumberFormat.E164)
-            flat.update(owner_pure_phone=pure_phone)
+            flat.owner_pure_phone = pure_phone
+            flat.save(update_fields=['owner_pure_phone'])
 
 
 class Migration(migrations.Migration):
